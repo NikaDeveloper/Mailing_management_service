@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "mailing-management-service"
+version = "0.1.0"
+description = ""
+authors = ["Nika Alexandrovna <megrelynika@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+poetry-core = "^2.2.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

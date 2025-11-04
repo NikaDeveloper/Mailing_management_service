@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Отчеты по рассылкам{% endblock %}
+
+{% block content %}
+  <h2>Отчеты по попыткам рассылок</h2>
+
+  {% if object_list %}
+    <div class="card" style="padding: 0;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Время попытки</th>
+              <th>Рассылка (Тема)</th>
+              <th>Статус</th>
+              <th>Ответ сервера</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for attempt in object_list %}
+              <tr>
+                <td>{{ attempt.attempt_time|date:"d.m.Y H:i:s" }}</td>
+                <td>
+                  <a href="{% url 'mailing:mailing_detail' attempt.mailing.pk %}">
+                    Рассылка #{{ attempt.mailing.pk }} ({{ attempt.mailing.message.subject|default:"Без темы"|truncatechars:30 }})
+                  </a>
+                </td>
+                <td>
+                  {% if attempt.status == 'Успешно' %}
+                    <span class="status-success">{{ attempt.status }}</span>
+                  {% else %}
+                    <span class="status-error">{{ attempt.status }}</span>
+                  {% endif %}
+                </td>
+                <td>{{ attempt.server_response|truncatechars:50 }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
+  {% else %}
+    <p>Попыток рассылки не найдено.</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if not request.user.is_authenticated %}
+<h1>Добро пожаловать в сервис рассылок!</h1>
+    <h2>Войдите или зарегистрируйтесь</h2>
+{% endif %}
+{% if user.is_authenticated %}
+ <h1>Добро пожаловать!</h1>
+    <p>Всего рассылок: {{ total_mailings }}</p>
+    <p>Активных рассылок: {{ active_mailings }}</p>
+    <p>Уникальных клиентов: {{ unique_recipients }}</p>
+{% endif %}
+{% endblock %}

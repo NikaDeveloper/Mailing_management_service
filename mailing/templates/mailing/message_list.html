@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои сообщения{% endblock %}
+
+{% block content %}
+  <h2>Мои сообщения</h2>
+  
+  <a href="{% url 'mailing:message_create' %}" class="btn btn-primary" style="margin-bottom: 20px;">
+    + Создать новое сообщение
+  </a>
+
+  {% if object_list %}
+    {% for message in object_list %}
+      <div class="card">
+        <h3>Тема: {{ message.subject }}</h3>
+        <p>{{ message.body|truncatechars:150 }}</p>
+        
+        <a href="{% url 'mailing:message_detail' message.pk %}" class="btn">Подробнее</a>
+        <a href="{% url 'mailing:message_update' message.pk %}" class="btn btn-primary">Редактировать</a>
+        <a href="{% url 'mailing:message_delete' message.pk %}" class="btn btn-danger">Удалить</a>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>У вас пока нет сохраненных сообщений. Начните с кнопки "Создать новое сообщение".</p>
+  {% endif %}
+{% endblock %}

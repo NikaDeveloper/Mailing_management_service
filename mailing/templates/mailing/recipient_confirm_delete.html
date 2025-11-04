@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление клиента{% endblock %}
+
+{% block content %}
+  <div class="card" style="max-width: 400px; margin: 30px auto; border: 1px solid #e74c3c;">
+    <h2>Удаление клиента</h2>
+    <p>Вы уверены, что хотите удалить клиента **"{{ object.full_name }}"** ({{ object.email }})?</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Да, удалить</button>
+      <a href="{% url 'mailing:recipient_detail' object.pk %}" class="btn">Отмена</a>
+    </form>
+  </div>
+{% endblock %}

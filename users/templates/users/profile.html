@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Мой профиль{% endblock %}
+
+{% block content %}
+  <div class="card" style="max-width: 600px; margin: 30px auto;">
+    <h2>Редактирование профиля</h2>
+
+    {% if object.avatar %}
+      <img src="{{ object.avatar.url }}" alt="Аватар" width="209" style="border-radius: 10%; margin-bottom: 20px;">
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      {% for field in form %}
+        {% if field.is_hidden %}
+            {{ field }}
+        {% else %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+              <small style="color: #7f8c8d; display: block; margin-top: 5px;">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+              <p style="color: #e74c3c; margin-top: 5px;">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </form>
+  </div>
+{% endblock %}

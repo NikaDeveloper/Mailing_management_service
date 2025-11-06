@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои рассылки{% endblock %}
+
+{% block content %}
+  <h2>Мои рассылки</h2>
+  <a href="{% url 'mailing:mailing_create' %}">Создать рассылку</a>
+
+  <ul>
+    {% for mailing in object_list %}
+      <li>
+        <a href="{% url 'mailing:mailing_detail' mailing.pk %}">
+          Рассылка #{{ mailing.pk }} (Статус: {{ mailing.status }})
+        </a>
+        <p>Тема: {{ mailing.message.subject }}</p>
+      </li>
+    {% empty %}
+      <li>У вас пока нет рассылок.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

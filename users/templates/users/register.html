@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+    <div class="card" style="max-width: 600px; margin: 30px auto;">
+  <h2>Регистрация</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+      {% if form.errors or form.non_field_errors %}
+      <div style="color: #e74c3c; border: 1px solid #e74c3c; padding: 10px; margin-bottom: 20px; border-radius: 4px; background-color: #fceae9;">
+        <p><strong>Пожалуйста, исправьте ошибки:</strong></p>
+
+        {% for error in form.non_field_errors %}
+          <p style="margin: 0 0 5px 0;">{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+        {% for field in form %}
+        <div class="form-group">
+          {% if not field.is_hidden %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {% endif %}
+
+          {{ field }}
+
+          {% if field.help_text %}
+            <small style="color: #7f8c8d; display: block; margin-top: 5px;">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <p style="color: #e74c3c; margin-top: 5px;">{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if object %}
+    Редактировать сообщение
+  {% else %}
+    Создать сообщение
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="card" style="max-width: 800px; margin: 30px auto;">
+    <h2>
+      {% if object %}
+        Редактировать сообщение: "{{ object.subject }}"
+      {% else %}
+        Создать новое сообщение
+      {% endif %}
+    </h2>
+
+    <form method="post">
+      {% csrf_token %}
+      
+      {% for field in form %}
+        {% if field.is_hidden %}
+            {{ field }}
+        {% else %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+              <small style="color: #7f8c8d; display: block; margin-top: 5px;">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+              <p style="color: #e74c3c; margin-top: 5px;">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary">Сохранить</button>
+      {% if object %}
+        <a href="{% url 'mailing:message_detail' object.pk %}" class="btn">Отмена</a>
+      {% else %}
+        <a href="{% url 'mailing:message_list' %}" class="btn">Отмена</a>
+      {% endif %}
+    </form>
+  </div>
+{% endblock %}
